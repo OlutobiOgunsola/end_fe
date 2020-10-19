@@ -313,17 +313,17 @@ const AddRequest = (props) => {
                 </Category>
             </Categories>
             <Label htmlFor='title'>Title</Label>
-            <Input onChange={handleTitle} name='title' id='title' type='text' placeholder='Title' />
+            <Input value={title} onChange={handleTitle} name='title' id='title' type='text' placeholder='Title' />
             <Label htmlFor='description'>Description</Label>
-            <Description onChange={handleDesc} name='description' id='description' placeholder='Description'/>
+            <Description value={desc} onChange={handleDesc} name='description' id='description' placeholder='Description'/>
             <SubTitle>How can we reach you?</SubTitle>
             <Contact>
                 <Insta>
-                    <Input  onChange={handleInsta} name='insta' id='insta_handle' type='text' placeholder='IG handle' />
+                    <Input  value={insta} onChange={handleInsta} name='insta' id='insta_handle' type='text' placeholder='IG handle' />
                     <Label htmlFor='insta'>Instagram handle</Label>
                 </Insta>
                 <Twitter>
-                    <Input onChange={handleTwitter} name='twitter' id='twitter_handle' type='text' placeholder='Twitter handle' />
+                    <Input value={twitter} onChange={handleTwitter} name='twitter' id='twitter_handle' type='text' placeholder='Twitter handle' />
                     <Label htmlFor='twitter'>Twitter handle</Label>
                 </Twitter>
             </Contact>

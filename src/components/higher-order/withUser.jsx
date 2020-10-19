@@ -28,7 +28,7 @@ function withUser(WrappedComponent, authRequired = false) {
               'endsars_prev_location_url',
               JSON.stringify(path),
             );
-            this.props.history.push('/endsars/admin_secure/auth');
+            this.props.history.push('/admin/auth');
           }
           return this.setState((state) => {
             return {
@@ -43,7 +43,7 @@ function withUser(WrappedComponent, authRequired = false) {
           const match = this.props.match;
           const path = match.url;
           localStorage.setItem('endsars_prev_location_url', JSON.stringify(path));
-          this.props.history.push('/endsars/admin_secure/auth');
+          this.props.history.push('/admin/auth');
         }
       } else {
         return null;

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import Axios from 'axios';
 
 const ParentContainer = styled.div`
@@ -100,7 +100,7 @@ const EmptyStateSubtext = styled.p`
   color: ${(props) => props.theme.saturated_contrast};
 `;
 
-const AddRequest = (props) => {
+const Auth = (props) => {
     const [username, setUsername]= useState('');
     const [pwd, setPwd]= useState('');
     const handleUsername = (e) => {
@@ -122,15 +122,15 @@ const AddRequest = (props) => {
         reqObj.username = username;
         reqObj.password = pwd;
 
-        return Axios.post(`${process.env.REACT_APP_API_PREFIX}/api/request/add`, reqObj, {
+        return Axios.post(`${process.env.REACT_APP_API_PREFIX}/api/auth/login`, reqObj, {
             headers
         }).then(res=>{
             if(res.status === 200) {
                 localStorage.setItem('endsars_id', res.data.data._id);
-
                 props.history.push('/endsars/admin_secure')
             }
         }).catch(err => {
+            console.log(err)
             alert('Error logging in. Invalid credentials')
         })
     }
@@ -149,4 +149,4 @@ const AddRequest = (props) => {
   </ParentContainer>
 }
 
-export default AddRequest;
+export default withRouter(Auth);

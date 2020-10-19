@@ -96,7 +96,7 @@ const RequestItem = (props) => {
   }, [data])
 
   const goToRequest = () => {
-    return props.history.push(`/endsars/admin_secure/requests/${request._id}`)
+    return props.history.push(`/endsars/admin_secure/${request._id}`)
   };
   return <ParentContainer onClick={goToRequest}>
       <Container>
@@ -111,7 +111,7 @@ const RequestItem = (props) => {
                 {request.description !== '' ? request.description : ''}
             </Description>
             <Meta>
-                <Verified>Verified by {request.verified_by !== '' ? request.verified_by : ''}</Verified>
+                <Verified>Verified by {request.verified_by && request.verified_by.length >  0 ? request.verified_by : 'UNVERIFIED'}</Verified>
                 <Status>{request.status}</Status>
             </Meta>
         </Details>

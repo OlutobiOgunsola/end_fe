@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, {withTheme} from 'styled-components';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 import RequestItem from '@/components/UI/Request';
 
@@ -78,9 +79,24 @@ const Input = styled.input`
 `
 
 const RequestList = (props) => {
-  const requestsArray = props.requests;
+ const [requests, setRequests] = useState([]);
 
-  const [requests, setRequests] = useState(requestsArray);
+  useEffect(()=>{
+    const getRequests = () => {
+        return axios.get(
+            `${process.env.REACT_APP_API_PREFIX}/api/request`
+        ).then(res => {
+            console.log(res)
+            if(res.status === 200){
+                setRequests(res.data.data)
+            }
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
+    getRequests();
+}, [])
 
   const sortBy = (sortOrder) => {
     const requestsClone = [...requests];
@@ -109,7 +125,7 @@ const RequestList = (props) => {
                 <Tag data-name='new'>New</Tag>
                 <Tag data-name='auth'>Authorized</Tag>
             </Filter>
-          {requests.length > 0 && requests.map((request) => {
+          {requests.length > 0 && requests.reverse().map((request) => {
             return (
               <RequestItem
                 user_id={props.loggedinUser._id}
@@ -123,7 +139,7 @@ const RequestList = (props) => {
           {requests.length === 0 && 
           <> 
             <EmptyStateText>No requests</EmptyStateText>
-            <EmptyStateText>No requests available at this time</EmptyStateText>
+            <EmptyStateSubtext>No requests available at this time</EmptyStateSubtext>
           </>}
         </Container>
       </ParentContainer>

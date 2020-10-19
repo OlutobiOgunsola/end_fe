@@ -5,7 +5,6 @@ import withUser from '../../../higher-order/withUser';
 
 import RequestList from './components/list'
 import RequestPage from './components/request'
-import axios from 'axios';
 
 const ParentContainer = styled.div`
     width: 100%;
@@ -101,39 +100,23 @@ const AdminDashboard = (props) => {
 
     useEffect(()=>{
         if(data.loggedIn){
-            setUser(data.user)
+            setUser(props.user.user)
         }
     }, [data])
 
-    useEffect(()=>{
-        const getRequests = () => {
-            return axios.get(
-                `${process.env.REACT_APP_API_PREFIX}/api/requests`
-            ).then(res => {
-                if(res.status === 200){
-                    setRequests(res.data.data)
-                }
-            }).catch(err => {
-                console.log(err)
-            })
-        }
-    }, [])
     return <ParentContainer id='admin'>
         <Header>
-            <Greeting>Hi, {user.name ? user.name : 'user'}</Greeting>
-            <Photo src={user.photo} alt='user photo' />
+            <Greeting>Hi, {user.username ? user.username : 'user'}</Greeting>
         </Header>
         <Container id='admin_dashboard'>
             <Switch>
             <Route
-            path={`${match.url}/`}
+            path={`${match.url}`}
             exact
             component={() => {
               return (
                 <RequestList
-                  loggedinUser={props.user}
-                  requests={requests}
-                //   requests={requests_fixture}
+                  loggedinUser={user}
                 />
               );
             }}
@@ -143,7 +126,7 @@ const AdminDashboard = (props) => {
             component={() => {
               return (
                 <RequestPage
-                  loggedinUser={props.user}
+                  loggedinUser={user}
                 />
               );
             }}

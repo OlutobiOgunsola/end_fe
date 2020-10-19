@@ -77,12 +77,12 @@ function App(props) {
             <AddRequest />
           </Suspense>
         </Route>
-        <Route path="/endsars/admin_secure/" exact>
+        <Route path="/endsars/admin_secure">
           <Suspense fallback={<Loading />}>
             <AdminDashboard />
           </Suspense>
         </Route>
-        <Route path="/endsars/admin_secure/auth">
+        <Route path="/admin/auth">
           <Suspense fallback={<Loading />}>
             <Auth />
           </Suspense>
