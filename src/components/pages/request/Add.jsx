@@ -11,7 +11,7 @@ const ParentContainer = styled.div`
     padding: 1rem;
     box-sizing: border-box;
     font-size: 16px;
-
+    overflow: hidden;
 `
 const Container = styled.div`
     max-width :  880px;
@@ -117,7 +117,7 @@ const Input = styled.input`
 const Description = styled.textarea`
     resize: none;
     width: 100%;
-    height: 200px;
+    height: 150px;
     padding: 1rem;
     box-sizing: border-box;
     color: #ccc;
@@ -141,31 +141,31 @@ const Icon = styled.span`
 
 const Contact = styled.div`
     width: 100%;
-    height: 100px;
+    height: 30px;
     display: inherit;
     flex-flow: row nowrap;
     justify-content: space-between;
     margin: 0;
     padding: 0;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
 `
 
 const Insta = styled.span`
     width: calc(50% - 8px);
-    height: 100%;
 `
 
 const Twitter = styled.span`
     width: calc(50% - 8px);
-    height: 100%;
 `
 
 const Button = styled(Link)`
     width: 150px;
-    height: 100%;
     display: inline-block;
     font-family: 'Noto Sans Regular';
     margin: 0;
-    padding: 1.5rem 2rem;
+    margin-left: auto;
+    padding: 1.5rem 1rem;
     text-align: center;
     text-decoration: none;
     box-sizing: border-box;
@@ -181,6 +181,21 @@ const Button = styled(Link)`
         opacity: 1;
     }
 `
+const EmptyStateText = styled.h5`
+  font-family: 'Noto Sans Regular';
+  text-align: center;
+  color: ${(props) => props.theme.saturated_contrast};
+  margin: 16px 0px 8px 0px;
+  width: 100%;
+`;
+const EmptyStateSubtext = styled.p`
+  font-family: 'Noto Sans Regular';
+  font-size: 12px;
+  text-align: center;
+  width: 100%;
+  margin: 0px 0px 40px 0px;
+  color: ${(props) => props.theme.saturated_contrast};
+`;
 
 const AddRequest = (props) => {
 
@@ -194,7 +209,9 @@ const AddRequest = (props) => {
     const [desc, setDesc] = useState('');
     const [twitter, setTwitter] = useState('');
     const [insta, setInsta] = useState('');
-    const [category, setCategory] = useState('')
+    const [category, setCategory] = useState('');
+    const [success, setSuccess] = useState(false)
+    const [reqID, setReqID] = useState('') 
 
     const refArray = [medRef, legalRef, logisticsRef, emergencyRef, othersRef];
 
@@ -245,18 +262,33 @@ const AddRequest = (props) => {
         reqObj.description = desc;
         reqObj.insta = insta;
         reqObj.twitter = twitter;
-        reqObj.category = category;
+        reqObj.request_category = category;
 
-        return Axios.post(`${process.env.REACT_APP_API_PREFIX}/api/requests/add`, reqObj, {
+        return Axios.post(`${process.env.REACT_APP_API_PREFIX}/api/request/add`, reqObj, {
             headers
         }).then(res=>{
-            console.log(res)
+            if(res.status === 200) {
+                setSuccess(true);
+                setReqID(res.data.data._id)
+            }
+        }).catch(err => {
+            alert('Error adding request. Please try again')
         })
     }
 
   return <ParentContainer>
       <Container>
-      <Button to='/'>Go Back</Button>
+        {success && 
+            <>
+                <EmptyStateText>Success!</EmptyStateText>
+                <EmptyStateSubtext>You have successfully logged a request. Your request id is {reqID !== '' ? `${reqID}` : 'undefined lol. Go back home'}</EmptyStateSubtext>
+                <Button to='/'>Go Home</Button>
+            </>
+        }
+
+        {!success && 
+        <>
+        <Button to='/'>Go Back</Button>
         <Form>
             <SubTitle>Choose a category</SubTitle>
             <Categories>
@@ -297,6 +329,8 @@ const AddRequest = (props) => {
             </Contact>
             <Button to='#' onClick={submit}>Submit</Button>
         </Form>
+        </>
+        }
       </Container>
   </ParentContainer>
 }

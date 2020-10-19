@@ -62,6 +62,7 @@ function App(props) {
   const Home = React.lazy(() => import('./components/pages/home/Index.jsx'));
   const AddRequest = React.lazy(() => import('./components/pages/request/Add.jsx'));
   const AdminDashboard = React.lazy(() => import('./components/pages/admin/dashboard/Index.jsx'));
+  const Auth = React.lazy(() => import('./components/pages/admin/auth/Index.jsx'));
   return (
     <div>
       <GlobalStyles />
@@ -76,9 +77,14 @@ function App(props) {
             <AddRequest />
           </Suspense>
         </Route>
-        <Route path="/endsars/admin_secure/">
+        <Route path="/endsars/admin_secure/" exact>
           <Suspense fallback={<Loading />}>
             <AdminDashboard />
+          </Suspense>
+        </Route>
+        <Route path="/endsars/admin_secure/auth">
+          <Suspense fallback={<Loading />}>
+            <Auth />
           </Suspense>
         </Route>
       </Switch>

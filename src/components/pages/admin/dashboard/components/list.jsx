@@ -20,7 +20,7 @@ const Container = styled.div`
 
 const EmptyStateText = styled.h5`
   text-align: center;
-  color: ${(props) => props.theme.colors.saturated_contrast};
+  color: ${(props) => props.theme.font_dark};
   margin: 16px 0px 8px 0px;
   width: 100%;
 `;
@@ -29,7 +29,7 @@ const EmptyStateSubtext = styled.p`
   text-align: center;
   width: 100%;
   margin: 0px 0px 40px 0px;
-  color: ${(props) => props.theme.colors.saturated_contrast};
+  color: ${(props) => props.theme.font_dark};
 `;
 
 const Filter=  styled.div`

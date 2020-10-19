@@ -104,28 +104,22 @@ export const loadUser = (id) => {
 };
 
 export const setUser = (user) => {
-  console.log('begin set user');
   return (dispatch) => {
     dispatch(beginSetUser);
-    console.log('dispatch set user');
     dispatch(setUserSuccess(user));
   };
 };
 
 export const loginUser = (user) => {
-  console.log('begin login user');
   return (dispatch) => {
     dispatch(beginLoginUser);
-    console.log('dispatch set user');
     dispatch(loginUserSuccess(user));
   };
 };
 
 export const editUser = (user) => {
-  console.log('begin edit user');
   return (dispatch) => {
     dispatch(beginEditUser);
-    console.log('dispatch edit user');
     dispatch(editUserSuccess(user));
   };
 };

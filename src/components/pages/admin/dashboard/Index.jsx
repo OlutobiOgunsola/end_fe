@@ -153,4 +153,4 @@ const AdminDashboard = (props) => {
     </ParentContainer>
 }
 
-export default withUser(AdminDashboard);
+export default withUser(AdminDashboard, true);
