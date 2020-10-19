@@ -19,7 +19,10 @@ const Container = styled.div`
 `
 
 const Header = styled.header`
-    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0rem 1rem;
+    box-sizing: border-box;
     height: 50px;
     display: flex;
     flex-flow: row nowrap;

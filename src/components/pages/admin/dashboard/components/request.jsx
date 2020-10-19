@@ -14,18 +14,36 @@ const Container = styled.div`
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+    @media(max-width: 600px){
+        flex-flow: column nowrap;
+    }
 `
 
 const Main = styled.div`
     display: inherit;
     flex-flow: column nowrap;
     width: calc(100% - 316px);
+
+    @media(max-width: 780px){
+        width: calc(100% - 266px);   
+     }
+
+     @media(max-width: 600px){
+        width: 100%;
+    }
 `
 
 const Side = styled.div`
     display: inherit;
     flex-flow: column nowrap;
     width: 300px;
+
+    @media(max-width: 780px){
+        width: 250px;
+    }
+    @media(max-width: 600px){
+        width: 100%;
+    }
 `
 
 const Title = styled.header`
@@ -217,6 +235,10 @@ const Action = styled.span`
 const Costs = styled.section`
     width: 100%;
     height: auto;
+    @media(max-width: 600px){
+        max-height: 250px;
+        overflow-y: scroll;
+    }
 `
 
 const AddCost = styled.div`
@@ -374,7 +396,6 @@ const handleCostJustification = (e) => {
       const getRequest = (id) => {
           return axios.get(`${process.env.REACT_APP_API_PREFIX}/api/request/${id}`).then(res => {
               if(res.status === 200){
-                  console.log(res.data.data)
                   return setRequest(res.data.data)
               };
           }).catch(err => {

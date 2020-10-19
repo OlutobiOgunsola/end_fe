@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import {Link, withRouter} from 'react-router-dom';
@@ -127,12 +127,19 @@ const Auth = (props) => {
         }).then(res=>{
             if(res.status === 200) {
                 localStorage.setItem('endsars_id', res.data.data._id);
+                alert('Successful')
                 props.history.push('/endsars/admin_secure')
             }
         }).catch(err => {
             console.log(err)
             alert('Error logging in. Invalid credentials')
         })
+    }
+
+    const processLogin = e => {
+        if(pwd && e.key === 'Enter'){
+            return submit();
+        }
     }
 
   return <ParentContainer>
@@ -142,7 +149,7 @@ const Auth = (props) => {
             <Label htmlFor='title'>Username</Label>
             <Input onChange={handleUsername} name='username' id='username' type='text' placeholder='Username' />
             <Label htmlFor='password'>Password</Label>
-            <Input onChange={handlePwd} name='password' id='password' type='password' placeholder='Password'/>
+            <Input onKeyDown={processLogin} onChange={handlePwd} name='password' id='password' type='password' placeholder='Password'/>
             <Button to='#' onClick={submit}>Submit</Button>
         </Form>
       </Container>

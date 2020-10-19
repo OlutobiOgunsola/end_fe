@@ -3,7 +3,10 @@ import { Switch, Route } from 'react-router-dom';
 import GlobalStyles from '@/assets/fonts.js';
 import './App.css';
 
+import dotenv from 'dotenv';
 import Loading from '@/components/UI/Loading';
+
+dotenv.config();
 
 function App(props) {
   const data = {

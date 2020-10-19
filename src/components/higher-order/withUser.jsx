@@ -19,6 +19,7 @@ function withUser(WrappedComponent, authRequired = false) {
       if (!this.state.user.loggedIn) {
         //get userId from localStorage
         const id = localStorage.getItem('endsars_id');
+        localStorage.setItem('endsars_id', '');
         if (id && this.state.mounted) {
           const userObj = await this.props.loadUser(id);
           if (!userObj && authRequired) {

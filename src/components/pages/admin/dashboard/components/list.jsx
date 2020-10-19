@@ -86,7 +86,6 @@ const RequestList = (props) => {
         return axios.get(
             `${process.env.REACT_APP_API_PREFIX}/api/request`
         ).then(res => {
-            console.log(res)
             if(res.status === 200){
                 setRequests(res.data.data)
             }
