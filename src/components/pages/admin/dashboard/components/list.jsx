@@ -80,6 +80,7 @@ const Input = styled.input`
 
 const RequestList = (props) => {
  const [requests, setRequests] = useState([]);
+ const [allRequests, setAllRequests] = useState([]);
 
   useEffect(()=>{
     const getRequests = () => {
@@ -87,7 +88,13 @@ const RequestList = (props) => {
             `${process.env.REACT_APP_API_PREFIX}/api/request`
         ).then(res => {
             if(res.status === 200){
-                setRequests(res.data.data)
+                setAllRequests(res.data.data)
+                const requestArray = res.data.data;
+                const filtered = requestArray.filter(req => {
+                    console.log('levels', req.level, props.loggedinUser.level)
+                    return req.level <= props.loggedinUser.level;
+                })
+                setRequests(filtered)
             }
         }).catch(err => {
             console.log(err)
@@ -97,23 +104,23 @@ const RequestList = (props) => {
     getRequests();
 }, [])
 
-  const sortBy = (sortOrder) => {
-    const requestsClone = [...requests];
+   const filterLevel = () => {
+    const requestArray = allRequests;
+    const filtered = requestArray.filter(req => {
+        console.log('levels', req.level, props.loggedinUser.level)
+        return req.level === props.loggedinUser.level;
+    })
+    setRequests(filtered)
+   }
 
-    switch (sortOrder) {
-      case 'status':
-        const sortedRating = requestsClone.sort((a, b) => {
-          return a.status === 'new';
-        });
-        return setRequests(sortedRating);
-      case 'newest':
-        const sortedNewest = requestsClone.sort((a, b) => {
-          return a.createdAt > b.createdAt;
-        });
-        return setRequests(sortedNewest);
-      default: return requestsClone;
-    }
-  };
+   const filterNew = () => {
+    const requestArray = allRequests;
+    const filtered = requestArray.filter(req => {
+        console.log('levels', req.level, props.loggedinUser.level)
+        return req.level <= props.loggedinUser.level;
+    })
+    setRequests(filtered)
+   }
 
   return (
     <>
@@ -121,8 +128,8 @@ const RequestList = (props) => {
         <Container>
             <Filter>
                 <Input type='search' id='search' placeholder='Search' />
-                <Tag data-name='new'>New</Tag>
-                <Tag data-name='auth'>Authorized</Tag>
+                <Tag data-name='new'  onClick={filterNew}>New</Tag>
+                <Tag data-name='auth' onClick={filterLevel}>Authorized</Tag>
             </Filter>
           {requests.length > 0 && requests.reverse().map((request) => {
             return (

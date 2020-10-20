@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {Switch, Route} from 'react-router-dom';
+import axios from 'axios';
 import withUser from '../../../higher-order/withUser';
 
 import RequestList from './components/list'
@@ -107,9 +108,23 @@ const AdminDashboard = (props) => {
         }
     }, [data])
 
-    return <ParentContainer id='admin'>
+    const logout = () => {
+        return axios
+          .get(`${process.env.REACT_APP_API_PREFIX}/api/auth/logout`)
+          .then((res) => {
+            if (res.status === 200) {
+              localStorage.clear();
+              return props.history.push('/');
+            }
+          })
+          .catch((err) => {
+              console.log('Request cancelled', err.message);
+          });
+      };
+
+    return <ParentContainer id='admin_dashboard'>
         <Header>
-            <Greeting>Hi, {user.username ? user.username : 'user'}</Greeting>
+            <Greeting onClick={logout}>Hi, {user.username ? user.username : 'user'}</Greeting>
         </Header>
         <Container id='admin_dashboard'>
             <Switch>

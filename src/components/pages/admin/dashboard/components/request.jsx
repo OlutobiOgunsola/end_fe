@@ -3,6 +3,8 @@ import React, {useState, useEffect} from 'react';
 import styled, {withTheme} from 'styled-components';
 import {withRouter, Link} from 'react-router-dom';
 
+
+
 const ParentContainer = styled.div`
     width: 100%;
     height: auto;
@@ -382,6 +384,8 @@ const handleCostJustification = (e) => {
     })
 }
 
+axios.defaults.withCredentials = true;
+
   const [request, setRequest] = useState({
       title: '',
       verified_by: '',
@@ -396,6 +400,7 @@ const handleCostJustification = (e) => {
       const getRequest = (id) => {
           return axios.get(`${process.env.REACT_APP_API_PREFIX}/api/request/${id}`).then(res => {
               if(res.status === 200){
+                  console.log(res.data.data)
                   return setRequest(res.data.data)
               };
           }).catch(err => {
@@ -490,11 +495,11 @@ const pushRequest = (e) => {
         headers, withCredentials: true,
     }).then(res => {
         if(res.status === 200){
-            alert('Request verified');
+            alert('Request pushed');
             setRender(!render);
         }
     }).catch(err => {
-        alert('Error verifying request');
+        alert('Error pushing request');
         console.log(err)
     });
 }
@@ -518,7 +523,7 @@ const pushRequest = (e) => {
         </Details>
         <Actions>
             <Action color='green' onClick={showAddCost}>Add Cost</Action>
-            {request.verified && <Action color='green' onClick={pushRequest}>Push to level {`${request.level+1}`}</Action>}
+            {request.verified && request.level < 4 && <Action color='green' onClick={pushRequest}>Push to level {`${request.level+1}`}</Action>}
             {!request.verified && <Action color='green' onClick={verifyRequest}>Mark as Verified</Action>}
             <Action color='red'>Flag</Action>
             <Status>{request.status ? request.status : ''}</Status>
@@ -546,10 +551,10 @@ const pushRequest = (e) => {
                                 <CostHeader><TitleBar>{cost.title}</TitleBar><AuthorBar>{cost.requester.username}</AuthorBar></CostHeader>
                                 <CostAmount>{cost.amount}</CostAmount>
                                 <CostJustification>{cost.justification}</CostJustification>
-                                <Actions>
+                                {props.loggedinUser.level === 4 && <Actions>
                                     <Action color='green'>Approve</Action>
                                     <Action color='red'>Reject</Action>
-                                </Actions>
+                                </Actions>}
                             </CostItem>
                 })}
                 {request.costs && request.costs.length === 0 && <>

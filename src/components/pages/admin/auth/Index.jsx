@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import styled from 'styled-components';
 
 import {Link, withRouter} from 'react-router-dom';
@@ -103,10 +103,16 @@ const EmptyStateSubtext = styled.p`
 const Auth = (props) => {
     const [username, setUsername]= useState('');
     const [pwd, setPwd]= useState('');
+    const inputRef = useRef(null);
+
     const handleUsername = (e) => {
         const value = e.target.value
         return setUsername(prev => {return value})
     }
+
+    useEffect(()=>{
+        inputRef.current.focus();
+    }, [])
 
     const handlePwd = (e) => {
         const value = e.target.value
@@ -147,7 +153,7 @@ const Auth = (props) => {
         <Form>
             <SubTitle>Enter details to login</SubTitle>
             <Label htmlFor='title'>Username</Label>
-            <Input onChange={handleUsername} name='username' id='username' type='text' placeholder='Username' />
+            <Input ref={inputRef} onChange={handleUsername} name='username' id='username' type='text' placeholder='Username' />
             <Label htmlFor='password'>Password</Label>
             <Input onKeyDown={processLogin} onChange={handlePwd} name='password' id='password' type='password' placeholder='Password'/>
             <Button to='#' onClick={submit}>Submit</Button>
